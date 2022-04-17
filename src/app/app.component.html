@@ -1,4 +1,8 @@
 <!-- App component -->
 <div id="emitron" class="emitron">
-  {{ (emitron | async)?.description }}
+  <!-- Кнопка отправки в БД  -->
+  <button type="buttton" (click)="addClick()">
+    Добавить запись
+  </button>
+  <h6>{{ info }}</h6>
 </div>

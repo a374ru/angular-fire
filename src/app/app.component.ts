@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreDocument,
+  AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
 
 class Item {
   name?: string;
   description?: string;
   datecreate?: string;
-  // TODO:  Добавить поле локально
 }
 
 @Component({
@@ -18,24 +16,32 @@ class Item {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'angular-fire-document';
+  title = '002. Добавление записи в Firestore';
+  info = 'Нажимая кнопку вы !ДОБАВЛЯЕТЕ ЗАПИСЬ в БД Firestore.';
 
-  docDbf: AngularFirestoreDocument<Item>;
+  // Добавляемая запись в Firestore должна быть объектом. В нашем случае это  объект c типом значений `Item`
+  entries: Item = {
+    description: this.title,
+  };
 
-  // Эмитрон. Наблюдатель за изменениями. В данном коде за эмитроном наблюдает
-  // div#aaa
-  emitron: Observable<Item | undefined>;
+  // Определяем переменную для коллекции
+  collectionFromFirestore: AngularFirestoreCollection<Item>;
 
+  // Здесь определяется переменная dbf - Это так называемая инъекция с типом AngularFirestore. Реализация библиотеки AngularFire, … устанавливаем коннект с базой.
   constructor(private dbf: AngularFirestore) {
     /**
-      Указываем статический путь к документу базы `firestore`
-      Добавляем путь в эмитрон.
-      */
-    this.docDbf = dbf.doc<Item>('test/ystm');
-    this.emitron = this.docDbf.valueChanges();
+      Инитим переменную именем коллекции размещенной в бд `firestore`
+    */
+    this.collectionFromFirestore = dbf.collection('collection-test');
+  }
+  // Метод вызываемый кнопкой
+  addClick() {
+    this.addEntries(this.entries); // вызов метода добавления записи в firestore
   }
 
-  myMethod() {
-    console.log('Привет, Олегъ!');
+  // Реализация метода добавления записи в БД Firestore
+  addEntries(rrr: Item) {
+    this.collectionFromFirestore.add(rrr);
+    this.info = 'Запись добавлена в бд';
   }
 }
