@@ -1,12 +1,12 @@
 <!-- App component -->
 <div id="emitron" class="emitron">
   <!-- Кнопка отправки в БД  -->
-  <button type="buttton" (click)="addClick()">
+  <button [disabled]="onof" (click)="addClick()">
     Добавить запись
   </button>
   <span id="emitron2" class="emitron">
     <!-- Кнопка удаления документа из  БД  -->
-    <button type="buttton" (click)="delClick()">
+    <button [disabled]="onoff" (click)="delClick()">
       Удалить запись
     </button>
   </span>

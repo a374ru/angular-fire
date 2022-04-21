@@ -17,9 +17,11 @@ class Item {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  onof = false;
+  onoff = false;
   title = '006. Удаление документа с полем `description` в `DBF`';
   info = 'Нажимая кнопку вы !ДОБАВЛЯЕТЕ КОЛЛЕКЦИЮ и ЗАПИСЬ в БД Firestore.';
-  a = 1;
+  counter = 0;
   collectionName = 'custom_id';
   // Добавляемая запись в Firestore должна быть объектом. В нашем случае это  объект c типом значений `Item`
   entries: Item = {
@@ -43,21 +45,41 @@ export class AppComponent {
     // Установка полу-рандомного `id`
     // this.entries.id = 'ystm_' + this.dbf.createId();
 
-    // Ручной `id`
-    this.entries.id = 'документ_' + this.a++;
+    // Ручной `id` и механизм ограничения
+    if (this.counter < 7) {
+      this.onoff = false;
+      this.counter += 1;
+      this.entries.id = 'документ_' + this.counter;
+    } else {
+      this.onof = true;
+    }
+
     this.addEntries(this.entries); // вызов метода добавления записи в firestore
   }
 
   // Реализация метода добавления записи в БД Firestore с ручным `ID`
   addEntries(rrr: Item) {
+    this.info = 'Добавлен ' + rrr.id;
+
     this.collectionFromFirestore.doc(rrr.id).set(rrr);
-    this.info = 'Запись ' + rrr.id;
   }
 
-  // Метод удаления документа по ручному `id`
+  // Метод удаления документа по ручному `id` и механизм ограничения по удалениям
   delClick() {
+    this.entries.id = 'документ_' + this.counter;
+    if (this.counter > 0) {
+      this.counter -= 1;
+    } else {
+      this.onoff = true;
+      this.onof = false;
+    }
     // Пустая коллекция удаляется из бдф автоматом
     this.collectionFromFirestore.doc(this.entries.id).delete();
-    this.info = 'Запись ' + this.entries.id + ' удалена';
+    this.info = 'Удален ' + this.entries.id;
+
+    console.log(this.counter, this.entries.id);
+    if (this.entries.id == 'документ_0') {
+      this.info = 'Документов нет, нет и коллекции…';
+    }
   }
 }
