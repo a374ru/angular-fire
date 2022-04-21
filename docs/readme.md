@@ -13,7 +13,7 @@
 Устанавливаем `angularfire2`
 
 ```sh
-npm i firebase angularfire2 --save
+npm i firebase angularfire --save
 
 ```
 
