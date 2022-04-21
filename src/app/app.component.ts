@@ -3,8 +3,10 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
 
 class Item {
+  id?: string;
   name?: string;
   description?: string;
   datecreate?: string;
@@ -16,11 +18,13 @@ class Item {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = '002. Добавление записи в Firestore';
-  info = 'Нажимая кнопку вы !ДОБАВЛЯЕТЕ ЗАПИСЬ в БД Firestore.';
-
+  title = '005. Добавление коллекция и документа с полем `description` в `DBF`';
+  info = 'Нажимая кнопку вы !ДОБАВЛЯЕТЕ КОЛЛЕКЦИЮ и ЗАПИСЬ в БД Firestore.';
+  a = 1;
+  collectionName = 'custom_id';
   // Добавляемая запись в Firestore должна быть объектом. В нашем случае это  объект c типом значений `Item`
   entries: Item = {
+    id: 'key',
     description: this.title,
   };
 
@@ -31,17 +35,23 @@ export class AppComponent {
   constructor(private dbf: AngularFirestore) {
     /**
       Инитим переменную именем коллекции размещенной в бд `firestore`
+      Если такой колекции нет она будет создана в `firestore`.
     */
-    this.collectionFromFirestore = dbf.collection('collection-test');
+    this.collectionFromFirestore = dbf.collection<Item>(this.collectionName);
   }
   // Метод вызываемый кнопкой
   addClick() {
+    // Установка полу-рандомного `id`
+    // this.entries.id = 'ystm_' + this.dbf.createId();
+
+    // Ручной `id`
+    this.entries.id = 'документ_' + this.a++;
     this.addEntries(this.entries); // вызов метода добавления записи в firestore
   }
 
-  // Реализация метода добавления записи в БД Firestore
+  // Реализация метода добавления записи в БД Firestore с ручным `ID`
   addEntries(rrr: Item) {
-    this.collectionFromFirestore.add(rrr);
-    this.info = 'Запись добавлена в бд';
+    this.collectionFromFirestore.doc(rrr.id).set(rrr);
+    this.info = 'Запись ' + rrr.id;
   }
 }
