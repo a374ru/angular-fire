@@ -3,7 +3,6 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
 
 class Item {
   id?: string;
@@ -18,13 +17,13 @@ class Item {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = '005. Добавление коллекция и документа с полем `description` в `DBF`';
+  title = '006. Удаление документа с полем `description` в `DBF`';
   info = 'Нажимая кнопку вы !ДОБАВЛЯЕТЕ КОЛЛЕКЦИЮ и ЗАПИСЬ в БД Firestore.';
   a = 1;
   collectionName = 'custom_id';
   // Добавляемая запись в Firestore должна быть объектом. В нашем случае это  объект c типом значений `Item`
   entries: Item = {
-    id: 'key',
+    id: 'не ',
     description: this.title,
   };
 
@@ -53,5 +52,12 @@ export class AppComponent {
   addEntries(rrr: Item) {
     this.collectionFromFirestore.doc(rrr.id).set(rrr);
     this.info = 'Запись ' + rrr.id;
+  }
+
+  // Метод удаления документа по ручному `id`
+  delClick() {
+    // Пустая коллекция удаляется из бдф автоматом
+    this.collectionFromFirestore.doc(this.entries.id).delete();
+    this.info = 'Запись ' + this.entries.id + ' удалена';
   }
 }
