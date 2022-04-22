@@ -1,5 +1,7 @@
 # Установка конекта Angular 13 + firebase 9
 
+[ПРИМЕР ЗДЕСЬ](public/index.html)
+
 ## az
 
 Разворачиваем проект Ангуляр.
@@ -10,7 +12,7 @@
 
 ## vedi
 
-Устанавливаем `angularfire2`
+Устанавливаем `angularfire`
 
 ```sh
 npm i firebase angularfire --save
