@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "a374ru-test": {
+      "hosting": {
+        "angular-fire": [
+          "a374ru-test2"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "a374ru-test"
+  }
+}

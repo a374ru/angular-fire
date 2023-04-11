@@ -1,0 +1,14 @@
+<!-- App component -->
+<div id="emitron" class="emitron">
+  <!-- Кнопка отправки в БД  -->
+  <button [disabled]="onof" (click)="addClick()">
+    Добавить запись
+  </button>
+  <span id="emitron2" class="emitron">
+    <!-- Кнопка удаления документа из  БД  -->
+    <button [disabled]="onoff" (click)="delClick()">
+      Удалить запись
+    </button>
+  </span>
+  <h6>{{ info }}</h6>
+</div>
